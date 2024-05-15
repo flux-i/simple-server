@@ -38,6 +38,8 @@ func (rm *RequestManager) ProcessRequest(req et.Request) {
 			if ok {
 				break
 			}
+			// Sleep for a short duration before checking the cache again
+			time.Sleep(time.Millisecond * 100)
 		}
 		data, _ := rm.respCache[key]
 		// return the cache result
