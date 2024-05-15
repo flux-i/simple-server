@@ -1,7 +1,6 @@
 package requests
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 )
@@ -45,6 +44,5 @@ func (ar *PathIDAppRequest) Valid() bool {
 			"path", "companyId", "ID value should be positive non-zero value")
 		return false
 	}
-	log.Println(ar.ID)
 	return true
 }

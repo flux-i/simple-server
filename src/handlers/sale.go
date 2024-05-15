@@ -4,20 +4,23 @@ import (
 	"log"
 	"net/http"
 
+	manager "simple-server/src/managers"
 	request "simple-server/src/requests"
 	usecase "simple-server/src/usecases"
 )
 
-func GetCompanySales(res http.ResponseWriter, req *http.Request) {
-	log.Println("API: GetCompanySales")
+func GetCompanySales(rm *manager.RequestManager) http.HandlerFunc {
+	return func(res http.ResponseWriter, req *http.Request) {
+		log.Println("API: GetCompanySales")
 
-	appReq := request.NewPathIDAppRequest(res, req)
+		appReq := request.NewPathIDAppRequest(res, req)
 
-	uc := usecase.NewGetCompanySalesUseCase(appReq)
-	uc.GetCompanySales()
-	if appReq.HasErrors() {
-		appReq.WriteErrorResponse()
-		return
+		uc := usecase.NewGetCompanySalesUseCase(rm, appReq)
+		uc.GetCompanySales()
+		if appReq.HasErrors() {
+			appReq.WriteErrorResponse()
+			return
+		}
+		appReq.WriteSuccessResponse()
 	}
-	appReq.WriteSuccessResponse()
 }
